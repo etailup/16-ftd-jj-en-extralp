@@ -337,7 +337,7 @@
                         submitButton.classList.remove('from-blue-600', 'to-purple-600');
                         submitButton.classList.add('bg-green-500');
                     }
-                }, 500); // 500ms = 0.5 second delay, non 5
+                }, 1000); // 1000ms = 1 second delay,
                 
             } else {
                 const errorData = await response.json().catch(() => ({}));
