@@ -100,6 +100,8 @@
                         </div>
                         
                         <!-- Hidden Fields-->
+                        <!-- MODIFICA: Aggiunto campo nascosto per la data di invio -->
+                        <input type="hidden" id="submission_date" name="submission_date">
                         <input type="hidden" id="language" name="language" value="English">
                         <input type="hidden" name="book_title" value="First Time Dad: The Guide to Become a SuperDad in 30 Days - Practical Exercises to Be a Perfect New Dad, Partner and Parent, From Conception to First Year">
                         <input type="hidden" name="main_category" value="Parenting">
@@ -264,10 +266,23 @@
         // Show loading state
         submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>PLEASE WAIT...';
         submitButton.disabled = true;
+
+        // --- MODIFICA INIZIO ---
+        // Calcola la data corrente e la formatta come DD-MM-YYYY
+        const today = new Date();
+        const day = String(today.getDate()).padStart(2, '0');
+        const month = String(today.getMonth() + 1).padStart(2, '0'); // I mesi in JS partono da 0
+        const year = today.getFullYear();
+        const formattedDate = `${day}-${month}-${year}`;
+        
+        // Imposta il valore del campo nascosto (opzionale ma buona pratica)
+        document.getElementById('submission_date').value = formattedDate;
+        // --- MODIFICA FINE ---
         
         const formData = {
             name: document.getElementById('name').value,
             email: document.getElementById('email').value,
+            submission_date: formattedDate, // MODIFICA: Aggiunta la data ai dati del form
             language: document.getElementById('language').value,
             book_title: document.querySelector('input[name="book_title"]').value,
             main_category: document.querySelector('input[name="main_category"]').value,
@@ -322,7 +337,7 @@
                         submitButton.classList.remove('from-blue-600', 'to-purple-600');
                         submitButton.classList.add('bg-green-500');
                     }
-                }, 500); // 500ms = 1 second delay
+                }, 500); // 500ms = 0.5 second delay, non 5
                 
             } else {
                 const errorData = await response.json().catch(() => ({}));
